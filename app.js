@@ -11,8 +11,6 @@ const userRoutes= require('./api/routes/user');
 const realtorRoutes=require('./api/routes/realtor');
 const feedbackRoutes=require('./api/routes/feedbacks');
 
-
-
 mongoose.connect(
   "mongodb+srv://node-realestate:realestate@node-realestate.ckawz.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",{
   useNewUrlParser: true,
