@@ -59,6 +59,7 @@ exports.user_login = (req,res,_next)=>{
            message: 'Auth failed'
          });
        } 
+       
        if (result){
           const token = jwt.sign(
             {
@@ -70,6 +71,8 @@ exports.user_login = (req,res,_next)=>{
                 expiresIn:'1h'
             }
           );
+
+          console.log(token);
           return res.status(200).json({
             message:'Auth succesful',
             token: token

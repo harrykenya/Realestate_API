@@ -2,7 +2,6 @@ const { json } = require('body-parser');
 const express = require('express');
 const router = express.Router();
 const multer = require('multer');
-const checkAuth = require('../middleware/check-auth');
 const ListingsController = require('../controllers/listings');
 
 const storage = multer.diskStorage({
@@ -34,12 +33,12 @@ const upload= multer({
 
   router.get('/',ListingsController.listings_get_all );
 
-  router.post('/',checkAuth, upload.single('listingImage'),ListingsController.listings_create_listing);
+  router.post('/', upload.single('listingImage'),ListingsController.listings_create_listing);
 
   router.get('/:listingId',ListingsController.listings_get_listing);
 
-  router.patch('/:listingId',  checkAuth, ListingsController.listings_update_listing);
+  router.patch('/:listingId', ListingsController.listings_update_listing);
 
-  router.delete('/:listingId', checkAuth, ListingsController.listings_delete_listing);
+  router.delete('/:listingId', ListingsController.listings_delete_listing);
 
 module.exports = router;
