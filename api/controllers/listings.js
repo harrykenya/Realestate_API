@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-
 const Listing = require('../models/listing');
 
 exports.listings_get_all = (_req, res, _next )  => {
@@ -14,13 +13,14 @@ exports.listings_get_all = (_req, res, _next )  => {
         return{
           name:doc.name,
           price: doc.price,
-          listingImage: doc.listingImage,
+          listingImage: doc.location,
           garage:doc.garage,
           bedrooms:doc.bedrooms,
           bathrooms:doc.bathrooms,
           sqft:doc.sqft,
           listingdate:doc.listingdate,
-          description:doc.description,          
+          description:doc.description,
+          realtor:doc.realtor,          
           _id: doc._id,
           request: {
             type: 'GET',
@@ -51,7 +51,7 @@ exports.listings_create_listing =  (req, res, _next )  => {
     _id: new mongoose.Types.ObjectId(),
     name:req.body.name,
     price: req.body.price,
-    listingImage:req.file.path,
+    listingImage:req.body.location,
     garage:req.body.garage,
     bedrooms:req.body.bedrooms,
     bathrooms:req.body.bathrooms,
@@ -65,17 +65,19 @@ exports.listings_create_listing =  (req, res, _next )  => {
     console.log(result);
     res.status(201).json({
       message:"created listing successfully",
+
       createdListing: {
         name:result.name,
         price:result.price,
         _id:result._id,
-        listingImage:result.listingImage,
+        listingImage:result.location,
         garage:result.garage,
         bedrooms:result.bedrooms,
         bathrooms:result.bathrooms,
         sqft:result.sqft,
         listingdate:result.listingdate,
         description:result.description,
+        realtor:result.realtor,
         request:{
           type:'POST',
           url:'http://localhost:3000/listings/'+ result._id
@@ -154,7 +156,7 @@ exports.listings_delete_listing = (req, res, _next) => {
       request:{
         type:'GET',
         url:'http://localhost:3000/listings/',
-        body:{name: 'String', price: 'Number',garage:'Number',bedrooms:'Number',bathrooms:'Number',sqft:'Number',listingdate:'String',description:'String'}
+        body:{name: 'String', price: 'Number',garage:'Number',bedrooms:'Number',bathrooms:'Number',sqft:'Number',listingdate:'timestamp',realtor:'String',description:'String'}
       }
     });
   })
