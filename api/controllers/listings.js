@@ -5,6 +5,7 @@ const Listing = require('../models/listing');
 exports.listings_get_all = (_req, res, _next )  => {
   Listing.find()
   .select('name price _id listingImage garage bedrooms bathrooms sqft listingdate description')
+  .populate('realtor', 'name')
   .exec()
   .then(docs => {
     const response ={
@@ -19,7 +20,7 @@ exports.listings_get_all = (_req, res, _next )  => {
           bathrooms:doc.bathrooms,
           sqft:doc.sqft,
           listingdate:doc.listingdate,
-          description:doc.description,
+          description:doc.description,          
           _id: doc._id,
           request: {
             type: 'GET',
@@ -57,6 +58,7 @@ exports.listings_create_listing =  (req, res, _next )  => {
     sqft:req.body.sqft,
     listingdate:req.body.listingdate,
     description:req.body.description,
+    realtor:req.body.realtor
   });
   listing.save()
   .then(result => { //save is a method provided by mongoose models
@@ -93,6 +95,7 @@ exports.listings_get_listing =  (req, res, _next) => {
   const id = req.params.listingId;
   Listing.findById(id)
   .select('name price _id listingImage garage bedrooms bathrooms sqft listingdate description')
+  .populate('realtor', 'name')
   .exec()
   .then(doc => {
     console.log("from database", doc);

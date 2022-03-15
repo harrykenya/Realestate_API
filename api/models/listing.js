@@ -10,7 +10,12 @@ const listingSchema = mongoose.Schema({ //defines how product should look like
   bathrooms:{type:Number, required:true},
   sqft:{type:Number, required:true},
   listingdate:{type:String, required:true},
-  description:{type:String, required:true}
+  description:{type:String, required:true},
+  realtor:{
+    type:mongoose.Schema.Types.ObjectId,
+    ref:'Realtor',
+    required:true
+  }
 });
 
 module.exports = mongoose.model('Listing', listingSchema); 
