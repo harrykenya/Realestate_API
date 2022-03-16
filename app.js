@@ -12,7 +12,7 @@ const realtorRoutes=require('./api/routes/realtor');
 const feedbackRoutes=require('./api/routes/feedbacks');
 
 mongoose.connect(
-  "mongodb+srv://node-realestate:realestate@node-realestate.ckawz.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",{
+  "mongodb://localhost:27017/mydb",{
   useNewUrlParser: true,
   useUnifiedTopology: true
 });//Adding an environment variable

@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Listing = require('../models/listing');
 
+
 exports.listings_get_all = (_req, res, _next )  => {
   Listing.find()
   .select('name price _id listingImage garage bedrooms bathrooms sqft listingdate description')
@@ -46,6 +47,7 @@ exports.listings_get_all = (_req, res, _next )  => {
   });
 }
 
+
 exports.listings_create_listing =  (req, res, _next )  => {
   const listing = new Listing({
     _id: new mongoose.Types.ObjectId(),
@@ -85,6 +87,7 @@ exports.listings_create_listing =  (req, res, _next )  => {
       }
     });
   })
+
   .catch(err => {
     console.log(err);
     res.status(500).json({
@@ -92,6 +95,8 @@ exports.listings_create_listing =  (req, res, _next )  => {
     });
   });
   }
+  
+ 
 
 exports.listings_get_listing =  (req, res, _next) => {
   const id = req.params.listingId;
@@ -120,6 +125,7 @@ exports.listings_get_listing =  (req, res, _next) => {
       error: err});
   });
 }
+
 
 exports.listings_update_listing = (req, res, _next) => {
   const id = req.params.listingId;

@@ -9,7 +9,7 @@ const listingSchema = mongoose.Schema({ //defines how product should look like
   bedrooms:{type:Number, required:true},
   bathrooms:{type:Number, required:true},
   sqft:{type:Number, required:true},
-  listingdate:{type:Date, required:true, default:Date.now()},
+  listingdate:{type:Date,required:false,default:Date.now()},
   description:{type:String, required:true},
   realtor:{
     type:mongoose.Schema.Types.ObjectId,
@@ -17,5 +17,6 @@ const listingSchema = mongoose.Schema({ //defines how product should look like
     required:true
   }
 });
+
 
 module.exports = mongoose.model('Listing', listingSchema); 
