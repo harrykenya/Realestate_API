@@ -2,7 +2,8 @@ const mongoose = require('mongoose');
 
 const realtorSchema = mongoose.Schema({ //defines how product should look like
   _id: mongoose.Schema.Types.ObjectId, //consturctor function
- email:{
+  name: {type:String, required: true},
+  email:{
    type: String, 
    required: true, 
    unique: true, 

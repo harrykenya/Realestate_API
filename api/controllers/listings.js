@@ -4,17 +4,19 @@ const Listing = require('../models/listing');
 
 exports.listings_get_all = (_req, res, _next )  => {
   Listing.find()
-  .select('name price _id listingImage garage bedrooms bathrooms sqft listingdate description')
+  .select('name price location _id listingImage garage bedrooms bathrooms sqft listingdate descriptionn realtor')
   .populate('realtor', 'name')
   .exec()
   .then(docs => {
     const response ={
       count:docs.length,
       listings: docs.map(doc =>{ 
+        console.log(doc);
         return{
           name:doc.name,
           price: doc.price,
-          listingImage: doc.location,
+          location:doc.location,
+          listingImage: doc.listingImage,
           garage:doc.garage,
           bedrooms:doc.bedrooms,
           bathrooms:doc.bathrooms,
@@ -53,12 +55,12 @@ exports.listings_create_listing =  (req, res, _next )  => {
     _id: new mongoose.Types.ObjectId(),
     name:req.body.name,
     price: req.body.price,
-    listingImage:req.body.location,
+    location: req.body.location,
+    listingImage:req.body.listingImage,
     garage:req.body.garage,
     bedrooms:req.body.bedrooms,
     bathrooms:req.body.bathrooms,
     sqft:req.body.sqft,
-    listingdate:req.body.listingdate,
     description:req.body.description,
     realtor:req.body.realtor
   });
@@ -71,8 +73,9 @@ exports.listings_create_listing =  (req, res, _next )  => {
       createdListing: {
         name:result.name,
         price:result.price,
+        location:result.location,
         _id:result._id,
-        listingImage:result.location,
+        listingImage:result.listingImage,
         garage:result.garage,
         bedrooms:result.bedrooms,
         bathrooms:result.bathrooms,
@@ -101,7 +104,7 @@ exports.listings_create_listing =  (req, res, _next )  => {
 exports.listings_get_listing =  (req, res, _next) => {
   const id = req.params.listingId;
   Listing.findById(id)
-  .select('name price _id listingImage garage bedrooms bathrooms sqft listingdate description')
+  .select('name price location _id listingImage garage bedrooms bathrooms sqft listingdate description')
   .populate('realtor', 'name')
   .exec()
   .then(doc => {
@@ -139,7 +142,7 @@ exports.listings_update_listing = (req, res, _next) => {
     res.status(200).json({
         message:'listing updated',
         request:{
-          type:'GET', 
+          type:'POST', 
           url:'http://localhost:3000/listings/'+ id
         }
     });
@@ -162,7 +165,7 @@ exports.listings_delete_listing = (req, res, _next) => {
       request:{
         type:'GET',
         url:'http://localhost:3000/listings/',
-        body:{name: 'String', price: 'Number',garage:'Number',bedrooms:'Number',bathrooms:'Number',sqft:'Number',listingdate:'timestamp',realtor:'String',description:'String'}
+        body:{name: 'String', price: 'Number',location:'String',listingImage:'String',garage:'Number',bedrooms:'Number',bathrooms:'Number',sqft:'Number',listingdate:'Number',realtor:'String',description:'String'}
       }
     });
   })

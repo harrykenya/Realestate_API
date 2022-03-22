@@ -4,6 +4,32 @@ const jwt = require('jsonwebtoken')
 
 const Realtor = require('../models/realtor');
 
+exports.realtors_get_all =  (req, res, _next) => {
+  Realtor.find()
+  .select('name email')
+  .exec()
+  .then(doc => {
+    console.log("from database", doc);
+    res.status(200).json(doc);
+    if (doc){
+      res.status(200).json({
+        realtor: doc,
+        request:{
+           type: 'GET',
+           url:'http://localhost:3000/realtors/'+ doc._id
+        }
+      });
+    }else{
+      res.status(404).json({message:'No valid entry found for provided ID'});
+    }
+  })
+  .catch(err => {
+    console.log(err);
+    res.status(500).json({
+      error: err});
+  });
+}
+
 
 exports.realtor_signup = (req, res, _next)=>{
 Realtor.find({email:req.body.email})
@@ -22,6 +48,7 @@ Realtor.find({email:req.body.email})
         }else{
           const realtor = new Realtor({
             _id: new mongoose.Types.ObjectId(),
+            name:req.body.name,
             email:req.body.email,
             password: hash
           });
@@ -62,6 +89,7 @@ exports.realtor_login = (req,res,_next)=>{
        if (result){
           const token = jwt.sign(
             {
+              name:realtor[0].name,
               email:realtor[0].email,
               realtorId: realtor[0]._id
             }, 
@@ -86,6 +114,60 @@ exports.realtor_login = (req,res,_next)=>{
       error: err
     })
   })
+}
+
+exports.realtors_update_realtor = (req, res, _next) => {
+  const id = req.params.realtorId;
+ const updateOps = {};
+ for (const ops of req.body){
+   for(let key of Object.keys(ops)){
+    updateOps[key] = ops[key];
+   }   
+ }
+  Realtor.updateOne({_id: id}, {$set: updateOps })
+  .exec()
+  .then(result => {
+    res.status(200).json({
+        message:'Realtor updated',
+        request:{
+          type:'POST', 
+          url:'http://localhost:3000/realtors/'+ id
+        }
+    });
+  })
+  .catch(err =>{
+    console.log(err);
+    res.status(500).json({
+      error:err
+    });
+  });
+}
+
+exports.realtors_get_realtor =  (req, res, _next) => {
+  const id = req.params.realtorId;
+  Realtor.findById(id)
+  .select('name email')
+  .exec()
+  .then(doc => {
+    console.log("from database", doc);
+    res.status(200).json(doc);
+    if (doc){
+      res.status(200).json({
+        realtor: doc,
+        request:{
+           type: 'GET',
+           url:'http://localhost:3000/realtors/'
+        }
+      });
+    }else{
+      res.status(404).json({message:'No valid entry found for provided ID'});
+    }
+  })
+  .catch(err => {
+    console.log(err);
+    res.status(500).json({
+      error: err});
+  });
 }
 
 exports.realtor_delete = (req, res, _next) =>{

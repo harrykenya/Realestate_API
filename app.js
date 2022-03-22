@@ -8,14 +8,15 @@ const fs = require("fs");
 const listingRoutes =require('./api/routes/listings');
 const orderRoutes =require('./api/routes/orders');
 const userRoutes= require('./api/routes/user');
-const realtorRoutes=require('./api/routes/realtor');
+const realtorRoutes=require('./api/routes/realtors');
 const feedbackRoutes=require('./api/routes/feedbacks');
 
-mongoose.connect(
-  "mongodb://localhost:27017/mydb",{
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-});//Adding an environment variable
+mongoose.connect("mongodb://localhost:27017/mydb",
+    {
+
+      useNewUrlParser: true,
+      useUnifiedTopology: true
+    });//Adding an environment variable
 mongoose.Promise = global.Promise;
 
  //incoming requests 
@@ -48,7 +49,7 @@ app.use((req, res, next) =>{
 app.use('/listings', listingRoutes);
 app.use('/orders', orderRoutes);
 app.use('/user', userRoutes);
-app.use('/realtor',realtorRoutes);
+app.use('/realtors',realtorRoutes);
 app.use('/feedbacks',feedbackRoutes)
 
 //error handling

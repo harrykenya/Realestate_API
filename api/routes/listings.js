@@ -37,7 +37,7 @@ const upload= multer({
 
   router.get('/:listingId',ListingsController.listings_get_listing);
 
-  router.patch('/:listingId', ListingsController.listings_update_listing);
+  router.post('/:listingId', ListingsController.listings_update_listing);
 
   router.delete('/:listingId', ListingsController.listings_delete_listing);
 
