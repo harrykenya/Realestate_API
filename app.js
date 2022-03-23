@@ -11,7 +11,7 @@ const userRoutes= require('./api/routes/user');
 const realtorRoutes=require('./api/routes/realtors');
 const feedbackRoutes=require('./api/routes/feedbacks');
 
-mongoose.connect("mongodb://localhost:27017/mydb",
+mongoose.connect("mongodb+srv://harry:harry@node-realestate.ckawz.mongodb.net/test",
     {
 
       useNewUrlParser: true,

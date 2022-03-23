@@ -134,7 +134,9 @@ exports.listings_update_listing = (req, res, _next) => {
   const id = req.params.listingId;
  const updateOps = {};
  for (const ops of req.body){
-   updateOps[ops.propName] = ops.value;
+   for(let key of Object.keys(ops)){
+    updateOps[key] = ops[key];
+   }   
  }
   Listing.updateOne({_id: id}, {$set: updateOps })
   .exec()
