@@ -6,7 +6,7 @@ const Realtor = require('../models/realtor');
 
 exports.realtors_get_all =  (req, res, _next) => {
   Realtor.find()
-  .select('name email')
+  .select('name email realtorImage')
   .exec()
   .then(doc => {
     console.log("from database", doc);
@@ -48,6 +48,7 @@ Realtor.find({email:req.body.email})
         }else{
           const realtor = new Realtor({
             _id: new mongoose.Types.ObjectId(),
+            realtorImage:req.body.realtorImage,
             name:req.body.name,
             email:req.body.email,
             password: hash
@@ -91,6 +92,7 @@ exports.realtor_login = (req,res,_next)=>{
             {
               name:realtor[0].name,
               email:realtor[0].email,
+              realtorImage:realtor[0].realtorImage,
               realtorId: realtor[0]._id
             }, 
             process.env.JWT_KEY, 
@@ -146,7 +148,7 @@ exports.realtors_update_realtor = (req, res, _next) => {
 exports.realtors_get_realtor =  (req, res, _next) => {
   const id = req.params.realtorId;
   Realtor.findById(id)
-  .select('name email')
+  .select('name email realtorImage')
   .exec()
   .then(doc => {
     console.log("from database", doc);
