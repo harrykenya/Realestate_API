@@ -9,8 +9,7 @@ exports.realtors_get_all =  (req, res, _next) => {
   .select('name email realtorImage')
   .exec()
   .then(doc => {
-    console.log("from database", doc);
-    res.status(200).json(doc);
+
     if (doc){
       res.status(200).json({
         realtor: doc,
@@ -53,6 +52,7 @@ Realtor.find({email:req.body.email})
             email:req.body.email,
             password: hash
           });
+          console.log()
           realtor
           .save()
           .then(result=>{
